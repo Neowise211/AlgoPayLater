@@ -1,0 +1,42 @@
+---
+description: Always reference the AlgoPay Frontend Design Figma project as the source of truth for UI work.
+alwaysApply: true
+---
+
+# AlgoPay Figma Design Reference Rule
+
+## Context
+The Figma project "AlgoPay Frontend Design" is the single source of truth for all UI, components, colors, typography, spacing, and layout in this codebase. Algo Pay is a Philippine fintech with a dark theme and gold (#f0c050) accent.
+
+## Required Behavior on Every Prompt
+
+Before generating, modifying, or reviewing ANY UI code (components, pages, styles, layouts, Tailwind, JSX/TSX, CSS, design tokens), you MUST:
+
+1. Query the Figma MCP first. Fetch the relevant frame, component, or token from "AlgoPay Frontend Design". Do not rely on memory or generic patterns.
+
+2. Map the user's request to a specific Figma node. If they mention a screen or component name, search the Figma project for that exact name or closest match.
+
+3. Extract concrete values — actual hex codes, font families, font sizes, line heights, paddings, margins, radii, shadows. Never approximate.
+
+4. Start code output with a comment block listing the Figma nodes referenced, e.g.:
+   // Figma ref: AlgoPay Frontend Design → Screens / Loan Investigator / Verdict Panel
+   // Tokens: color/gold-accent (#f0c050), spacing/md (16px), radius/lg (12px)
+
+5. If the Figma MCP fails or the node is missing, STOP and ask: "I could not find <node> in the AlgoPay Frontend Design Figma project. Can you confirm the frame name or paste a Figma link?" Do not silently fall back.
+
+## When This Rule Does NOT Apply
+- Pure backend, database, or API work with no UI surface
+- Build config, tooling, CI, dependency updates
+- Docs with no UI code
+
+## Brand Constraints (always honor)
+- Dark theme baseline
+- Gold accent: #f0c050
+- Philippine peso (₱) for currency
+- Professional tone, light Filipino humor welcome in copy
+- Mobile-responsive by default
+
+## Output Discipline
+- Match Figma pixel-for-pixel unless told otherwise
+- Flag conflicts between existing code and Figma
+- Prefer design tokens over hardcoded values
