@@ -30,3 +30,6 @@ build/
 # Coverage / test output (not yet in use)
 coverage/
 .nyc_output/
+
+# GitNexus knowledge graph index (local only)
+.gitnexus/
