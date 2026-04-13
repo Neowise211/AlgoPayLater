@@ -1,0 +1,32 @@
+# Environment — never commit real secrets
+.env
+.env.local
+.env.*.local
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Future application build artifacts (not yet in use)
+node_modules/
+dist/
+build/
+.vite/
+.cache/
+
+# Coverage / test output (not yet in use)
+coverage/
+.nyc_output/
