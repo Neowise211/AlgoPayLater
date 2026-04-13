@@ -75,6 +75,34 @@ Before implementing any Figma frame, verify it against:
 
 ---
 
+## Token architecture
+
+All design tokens extracted from Figma live in a single file: `src/globals.css` (created in Sprint 1). This is the only place where raw values (hex codes, pixel sizes, font strings) are permitted to exist.
+
+### Namespace
+
+All tokens use the `--brand-[category]-[name]` pattern:
+
+| Category | Prefix | Example |
+|---|---|---|
+| Colors | `--brand-color-*` | `--brand-color-bg`, `--brand-color-stamp-approve` |
+| Spacing | `--brand-space-*` | `--brand-space-sm`, `--brand-space-xl` |
+| Border radius | `--brand-radius-*` | `--brand-radius-panel` |
+| Typography | `--brand-font-*` | `--brand-font-data`, `--brand-font-ui` |
+| Shadows | `--brand-shadow-*` | `--brand-shadow-panel` |
+
+### Extraction workflow
+
+Tokens are extracted from Figma during **Sprint 1**. See [docs/sprint-roadmap.md](sprint-roadmap.md) for the full workflow and Composer prompt.
+
+The proposed default token values are documented in `.cursor/rules/vibe-governance.md`. These are overridden by the actual Figma values during Sprint 1.
+
+### Rule
+
+No component stylesheet may contain a raw hex code, pixel value, or font string. All values must reference `var(--brand-*)`. See `.cursor/rules/vibe-governance.md` — Principle 3 for the full constraint.
+
+---
+
 ## Code Connect (future)
 
 Once the React component library is built, Figma Code Connect can be configured to map Figma components directly to their codebase counterparts. This eliminates guesswork when the MCP reads a design. Setup instructions will be added here when the application scaffolding task is complete.

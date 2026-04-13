@@ -1,0 +1,125 @@
+---
+description: Design-to-code philosophy enforcement — tokens, layout flexibility, and interaction vibe
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Rule: vibe-governance
+
+This is the design philosophy layer for Algo Pay — Loan Investigator. It governs how Figma design data is interpreted and implemented across the entire codebase.
+
+Works alongside:
+- [figma.md](figma.md) — stack translation (plain JSX, plain CSS, no Tailwind)
+- [game-design-guardrails.md](game-design-guardrails.md) — game design consistency
+
+---
+
+## Principle 1: Tokens over layout
+
+Figma is the **source of truth** for the visual properties of this project. When reading a Figma frame, extract and honour:
+
+| Token category | CSS namespace | Example |
+|---|---|---|
+| Colors | `--brand-color-*` | `--brand-color-bg`, `--brand-color-ink` |
+| Spacing | `--brand-space-*` | `--brand-space-sm`, `--brand-space-lg` |
+| Border radius | `--brand-radius-*` | `--brand-radius-panel`, `--brand-radius-stamp` |
+| Typography | `--brand-font-*` | `--brand-font-data`, `--brand-font-ui` |
+| Shadows | `--brand-shadow-*` | `--brand-shadow-panel`, `--brand-shadow-stamp` |
+
+All tokens live in `globals.css`. No token may be defined anywhere else.
+
+---
+
+## Principle 2: Layout flexibility
+
+Figma layouts often use rigid absolute positioning or fixed heights. Do not replicate this in code.
+
+- **Fidelity = vibe, not coordinates.** Match the feel, spacing ratios, and visual weight — not the pixel values.
+- Replace absolute positioning with `flex` or `grid` equivalents.
+- Replace fixed pixel heights with `min-height`, `aspect-ratio`, or content-driven sizing.
+- Exception: decorative elements (e.g. a paper texture overlay) may use absolute positioning as a non-structural layer.
+
+---
+
+## Principle 3: Variable injection — no hardcoded values
+
+Never write a raw colour, spacing value, or shadow directly in a component stylesheet.
+
+```css
+/* Good */
+background-color: var(--brand-color-surface);
+padding: var(--brand-space-md) var(--brand-space-lg);
+
+/* Bad */
+background-color: #1c1c1e;
+padding: 12px 24px;
+```
+
+If a value is needed that does not yet exist in `globals.css`:
+1. Stop.
+2. Tell the user: "This value is not in the token set — should I add `--brand-[name]: [value]` to globals.css?"
+3. Wait for confirmation before proceeding.
+
+---
+
+## Principle 4: Interaction vibe
+
+Interactions must feel physical and deliberate — matching the bureaucratic-weight atmosphere of the game.
+
+**Stamp mechanic (VerdictStamp):**
+- Must have a tactile press-down feel — use CSS `transform: scale()` and `transition` for a physical slam.
+- Approved: deep, satisfying downward motion. Rejected: sharp, decisive.
+- No bouncy easing. Use `ease-in` for the slam down, `ease-out` for the lift.
+
+**General interactions:**
+- Hover states: subtle — a slight brightness shift (`filter: brightness(1.05)`), not colour changes.
+- Focus states: visible but understated — a muted outline, not a glow.
+- Scrolling (FeedPost panel): native scroll, no custom scroll libraries unless the design specifically requires a physical scroll feel.
+
+In v1, all interactions are implemented with plain CSS transitions. A motion library (e.g. Framer Motion or Motion One) may be introduced in Sprint 4 if CSS alone cannot achieve the required feel — but this is opt-in, not assumed.
+
+---
+
+## Principle 5: No design debt shortcuts
+
+- NEVER apply an ad-hoc `style={{ ... }}` inline prop in JSX to work around a missing token.
+- NEVER duplicate a token value — define it once in `globals.css`, reference it everywhere.
+- NEVER introduce a new colour or spacing value without it being traceable to either a Figma token or an explicit user decision.
+
+---
+
+## Token naming convention
+
+Use the pattern `--brand-[category]-[name]` strictly:
+
+```css
+/* Colors */
+--brand-color-bg: #0e0e10;
+--brand-color-surface: #1a1a1e;
+--brand-color-ink: #e8e0d0;
+--brand-color-ink-muted: #7a7570;
+--brand-color-clue: #b8560a;
+--brand-color-stamp-approve: #2d5a27;
+--brand-color-stamp-reject: #7a1f1f;
+
+/* Spacing */
+--brand-space-xs: 4px;
+--brand-space-sm: 8px;
+--brand-space-md: 16px;
+--brand-space-lg: 24px;
+--brand-space-xl: 40px;
+
+/* Radius */
+--brand-radius-sm: 2px;
+--brand-radius-panel: 4px;
+
+/* Typography */
+--brand-font-data: 'Courier New', 'Courier', monospace;
+--brand-font-ui: system-ui, sans-serif;
+
+/* Shadows */
+--brand-shadow-panel: 0 2px 8px rgba(0, 0, 0, 0.6);
+--brand-shadow-stamp: 0 4px 16px rgba(0, 0, 0, 0.8);
+```
+
+These are **proposed defaults** — override with actual Figma token values during Sprint 1.
