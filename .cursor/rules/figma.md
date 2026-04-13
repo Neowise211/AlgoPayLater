@@ -1,0 +1,90 @@
+---
+description: Guide design-to-code translation from Figma MCP output to match this project's stack and visual language
+globs: ["**/*.jsx", "**/*.css", "docs/figma.md"]
+alwaysApply: false
+---
+
+# Rule: figma
+
+Apply this rule whenever working with a Figma design URL or translating Figma MCP output into code for Algo Pay — Loan Investigator.
+
+Reference: [docs/figma.md](../docs/figma.md)
+
+---
+
+## Stack constraints (override MCP defaults)
+
+The Figma MCP outputs React + Tailwind by default. This project uses a different stack — always adapt:
+
+| MCP default | This project |
+|---|---|
+| Tailwind utility classes | Plain CSS (custom properties or class-based) |
+| TypeScript / `.tsx` | Plain JavaScript / `.jsx` |
+| `import styles from '...'` (CSS modules) | Plain `<link>` or co-located `.css` file |
+| Inline `style={{ color: '#fff' }}` | CSS custom property via stylesheet |
+| `className="flex items-center gap-4"` | Semantic CSS class with equivalent rule |
+
+**Never output Tailwind classes**, even if the MCP suggests them.
+
+---
+
+## Color and spacing tokens
+
+When the MCP returns raw hex values or pixel values, convert them to CSS custom properties rather than hardcoding:
+
+```css
+/* Good */
+color: var(--color-ink);
+padding: var(--space-md);
+
+/* Bad */
+color: #1a1a1a;
+padding: 16px;
+```
+
+Document any new custom properties you introduce in a comment at the top of the CSS file until a design token file exists.
+
+---
+
+## Visual language
+
+This game has a dark, bureaucratic, detective-noir aesthetic. When interpreting Figma frames:
+
+- Prefer dark backgrounds, muted greys, and aged-paper tones over bright/saturated colours.
+- Typography should feel institutional — monospace or serif for data fields, sans-serif for navigation.
+- Avoid rounded corners, drop shadows, or gradients unless explicitly present in the Figma frame.
+- The dominant interactive element is the **VerdictStamp** — give it visual weight and physicality.
+- Social feed (FeedPost) panels should feel like a secondary, slightly distracting overlay — not the hero element.
+
+---
+
+## Naming conventions
+
+Follow the conventions in `README.md` and `.cursor/rules/writing-style.md`:
+
+- Component files: PascalCase `.jsx` (e.g. `VerdictStamp.jsx`, `FeedPost.jsx`)
+- CSS files: kebab-case, co-located with the component (e.g. `verdict-stamp.css`)
+- CSS class names: kebab-case (e.g. `.verdict-stamp`, `.feed-post__body`)
+- Game concept names in JSX comments/props: PascalCase (`Applicant`, `FeedPost`, `VerdictStamp`)
+
+---
+
+## Design-to-code workflow
+
+1. Receive Figma URL from user.
+2. Call `get_design_context` with the extracted `fileKey` and `nodeId`.
+3. Read the screenshot and code hint output.
+4. Check `docs/overview.md` — verify the frame matches an existing game screen before building.
+5. Check `docs/content-model.md` — ensure any data fields match the proposed JSON shapes.
+6. Translate to plain JSX + plain CSS, applying the constraints above.
+7. Do not create files in `src/` until the application scaffolding task has been completed.
+
+---
+
+## Never do
+
+- NEVER output Tailwind classes.
+- NEVER output TypeScript syntax (no type annotations, no `interface`, no `.tsx`).
+- NEVER create `src/` files — this project is still in the meta-layer phase.
+- NEVER hardcode hex colours or pixel values — use CSS custom properties.
+- NEVER build a frame that contradicts the game design guardrails in `.cursor/rules/game-design-guardrails.md`.
