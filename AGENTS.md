@@ -84,3 +84,5 @@ During the meta-layer phase, **all agents are restricted to docs, rules, and con
 ## Escalation
 
 If a task requires crossing a boundary above, the agent must stop and ask the user whether the meta phase has ended and a new scaffolding task has begun.
+
+> GitNexus rules and reference: see [.cursor/rules/gitnexus.md](.cursor/rules/gitnexus.md) and [.cursor/docs/gitnexus.md](.cursor/docs/gitnexus.md)
