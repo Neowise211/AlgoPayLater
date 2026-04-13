@@ -9,8 +9,8 @@ alwaysApply: true
 This is the design philosophy layer for Algo Pay — Loan Investigator. It governs how Figma design data is interpreted and implemented across the entire codebase.
 
 Works alongside:
-- [figma.md](figma.md) — stack translation (plain JSX, plain CSS, no Tailwind)
-- [game-design-guardrails.md](game-design-guardrails.md) — game design consistency
+- [figma.mdc](figma.mdc) — stack translation (plain JSX, plain CSS, no Tailwind)
+- [game-design-guardrails.mdc](game-design-guardrails.mdc) — game design consistency
 
 ---
 

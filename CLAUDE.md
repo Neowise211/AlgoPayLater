@@ -76,4 +76,4 @@ Never auto-generate IDs, seed data files, or import paths alongside schema propo
 - [docs/content-model.md](docs/content-model.md)
 - [docs/mcp-supabase.md](docs/mcp-supabase.md)
 
-> GitNexus rules and reference: see [.cursor/rules/gitnexus.md](.cursor/rules/gitnexus.md) and [.cursor/docs/gitnexus.md](.cursor/docs/gitnexus.md)
+> GitNexus rules and reference: see [.cursor/rules/gitnexus.mdc](.cursor/rules/gitnexus.mdc) and [.cursor/docs/gitnexus.mdc](.cursor/docs/gitnexus.mdc)

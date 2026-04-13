@@ -60,7 +60,7 @@ This game has a dark, bureaucratic, detective-noir aesthetic. When interpreting 
 
 ## Naming conventions
 
-Follow the conventions in `README.md` and `.cursor/rules/writing-style.md`:
+Follow the conventions in `README.md` and `.cursor/rules/writing-style.mdc`:
 
 - Component files: PascalCase `.jsx` (e.g. `VerdictStamp.jsx`, `FeedPost.jsx`)
 - CSS files: kebab-case, co-located with the component (e.g. `verdict-stamp.css`)
@@ -87,4 +87,4 @@ Follow the conventions in `README.md` and `.cursor/rules/writing-style.md`:
 - NEVER output TypeScript syntax (no type annotations, no `interface`, no `.tsx`).
 - NEVER create `src/` files — this project is still in the meta-layer phase.
 - NEVER hardcode hex colours or pixel values — use CSS custom properties.
-- NEVER build a frame that contradicts the game design guardrails in `.cursor/rules/game-design-guardrails.md`.
+- NEVER build a frame that contradicts the game design guardrails in `.cursor/rules/game-design-guardrails.mdc`.
