@@ -1,0 +1,82 @@
+---
+description: Locked stack constraints and Visual Port Protocol — design-reference.html is authoritative
+alwaysApply: true
+---
+
+# Locked Stack
+
+This project uses a fixed technology stack. No agent may deviate from these choices without explicit user instruction.
+
+| Concern | Choice | Prohibited alternatives |
+|---|---|---|
+| Framework | React 18 via Vite | Next.js, Remix, SvelteKit, Vue, Angular |
+| Language | JavaScript / JSX | TypeScript, TSX |
+| Styling | Plain CSS / CSS Modules | Tailwind, Sass, Less, styled-components, Emotion, CSS-in-JS of any kind |
+| State | React Context + useReducer | Redux, Zustand, Jotai, MobX |
+| Data | Static JSON files | REST API calls, GraphQL, server-side rendering |
+| Build | Vite | webpack, Parcel, esbuild standalone |
+| Target browsers | Chrome 109+ / Firefox ESR 115+ | IE, Safari-only features |
+| Target resolution | 1280×720 minimum | Mobile-first breakpoints |
+
+Never install a new npm dependency without explicit user approval. Never introduce TypeScript, a CSS preprocessor, or a state management library. Never replace CSS Modules with any CSS-in-JS approach.
+
+---
+
+# VISUAL PORT PROTOCOL
+
+The file `docs/design-reference.html` is the complete visual specification for every component in this project. The execution blueprint describes component structure. This file describes component appearance. Both are authoritative; neither is optional.
+
+## The Rule
+
+Before writing any CSS for a UI component, open `docs/design-reference.html` and find the matching selector. Port its rules verbatim into the new CSS Module. Adjust only the selector name (e.g. `.dossier` becomes `.dossier` in the module; `className={styles.dossier}` in JSX).
+
+Before writing JSX, find the matching HTML structure in `docs/design-reference.html`. Port the structure verbatim. Adjust only for React syntax: `class` → `className`, static strings → `{expressions}`, inline `onclick` → React event handlers.
+
+## What NOT to Do
+
+- Do not reinvent gradients, colors, spacing, border radii, or font sizes when a matching selector exists in `docs/design-reference.html`.
+- Do not substitute "similar" values (e.g. `#F0C050` is the gold. Never `#FFD700`, never `#F5C542`).
+- Do not combine tokens from `tokens.css` in novel ways when the reference file shows the exact combination. (Example: the dossier background is `linear-gradient(135deg, #F0C050, #D4A630)` — not `var(--gold)` solid, not a different gradient angle.)
+- Do not flatten complex backgrounds. The folder tabs use a `repeating-linear-gradient` overlay for manila texture — port it exactly.
+- Do not omit shadows, transitions, or hover states present in the reference.
+
+## What to Do When the Reference is Silent
+
+If `docs/design-reference.html` does not cover a component (e.g. animations like stamp-slam, toast container, tutorial tooltip), you may invent — but:
+1. Use only tokens from `src/styles/tokens.css`.
+2. Match the aesthetic of surrounding components visible in the reference.
+3. Flag the invention in a code comment: `/* NOT IN design-reference.html — invented per vibe */`.
+
+## Selector Map by Sprint
+
+Each sprint's components map to specific selectors in `docs/design-reference.html`. Port these:
+
+**Sprint 2 — Shared Components (Prompt 2.2):**
+`.logo`, `.top-actions`, `.nav-link`, `.timer-display`, `.inv-topbar`, `.inv-topbar-right`, `.inv-context`, `.evidence-btn`, `.evidence-badge`, `.folder-tab`, `.folder-tab.active`, `.platform-icon` (and `.fb`/`.ig`/`.li`/`.tw` variants), `.folder-body`, `.post`, `.post.pinned`, `.pin-icon`, `.post-header`, `.post-avatar`, `.post-author`, `.post-meta`, `.post-content`, `.post-image`, `.post-engagement`, `.btn-primary`, `.btn-secondary`
+
+**Sprint 2 — Investigation Sidebar (Prompt 2.3):**
+`.pin-overlay`, `.pin-panel`, `.pin-panel-header`, `.close-btn`, `.pin-quote`, `.voucher-tray`, `.voucher-card`, `.voucher-card.active`, `.voucher-card.v-auto`, `.voucher-card.v-flash`, `.voucher-icon`, `.voucher-label`, `.pin-step`, `.step-label`, `.radio-option`, `.radio-option.selected`, `.radio-dot`, `.radio-text`, `.chip-grid`, `.chip`, `.chip.selected`, `.pin-note`, `.pin-footer`, `.strength-preview`, `.strength-stars`, `.pin-actions`, `.btn-cancel`, `.btn-save`, plus `@keyframes slideIn`
+
+**Sprint 3 — Verdict (Prompt 3.2):**
+`.verdict`, `.verdict-intro`, `.verdict-options`, `.verdict-option`, `.verdict-option.approve`, `.verdict-option.approve.selected`, `.verdict-option.reject`, `.verdict-option.reject.selected`, `.verdict-icon`, `.verdict-title`, `.verdict-desc`
+
+**Sprint 3 — Results + Consequence (Prompt 3.3):**
+`.score-screen`, `.score-subtitle`, `.verdict-result`, `.verdict-result.correct`, `.verdict-result.wrong`, `.score-big`, `.score-time`, `.score-breakdown`, `.score-row`, `.score-actions`, `.consequence-overlay`, `.consequence-modal`, `.consequence-header`, `.consequence-sender`, `.consequence-av`, `.consequence-subject`, `.consequence-body`, `.consequence-quote`, `.consequence-impact`, `.impact-label`, `.impact-grid`, `.impact-card`, `.consequence-actions`
+
+**Sprint 5 — Landing + Difficulty + Briefing (Prompt 5.1):**
+`.home`, `.home h1`, `.home .tagline`, `.home .stats`, `.stat-card`, `.btn-start`, `.difficulty-select`, `.diff-grid`, `.diff-card`, `.diff-card.easy/.medium/.hard/.extreme`, `.diff-badge` (all four variants), `.diff-card h3`, `.case-desc`, `.best-time`, `.coming-soon`, `.briefing`, `.dossier`, `.dossier-header`, `.dossier-avatar`, `.dossier-name`, `.dossier-sub`, `.dossier-fields`, `.dossier-field`, `.briefing-quote`, `.briefing-actions`
+
+**Sprint 5 — Leaderboard (Prompt 5.3):**
+`.leaderboard`, `.lb-tabs`, `.lb-tab`, `.lb-tab.active`, `.lb-list`, `.lb-row`, `.lb-row.header`, `.lb-row.you`, `.lb-rank`, `.lb-empty`
+
+## Visual Parity Check (Mandatory After Every UI Sprint)
+
+After completing a sprint that ships UI, run this check before declaring the sprint done:
+
+1. Open `docs/design-reference.html` in one browser window. Use browser DevTools to isolate the relevant section.
+2. Open `http://localhost:5173` in another window. Navigate to the matching screen.
+3. Put them side by side at 1280×720.
+4. Compare: gradients, border colors, spacing, typography weights, shadow intensity, hover states.
+5. If anything drifts beyond "minor spacing tolerance (±4px)", do NOT mark the sprint complete. Write a targeted Cursor prompt: *"Component X drifted from design-reference.html. Re-open that file, find selector `.X`, and port the CSS rules verbatim. Fix the divergence."*
+
+This check is non-negotiable. Skipping it is how projects end up looking "kinda right but off" at the booth.

@@ -330,6 +330,38 @@ Each case needs:
 
 ---
 
+## B.5 — Visual Port Protocol (Authoritative Visual Spec)
+
+**File:** `docs/design-reference.html`
+
+This file is the complete visual specification. The blueprint (this doc) describes structure, data shape, and behavior. The reference file describes appearance. A component is not "done" until both have been satisfied.
+
+### The Rule
+
+For every component that has a matching selector in `docs/design-reference.html`:
+
+1. Open the reference file.
+2. Find the matching selector.
+3. Port the CSS rules verbatim into the CSS Module.
+4. Port the HTML structure into JSX, adjusting only for React syntax.
+5. Do not reinvent gradients, colors, spacing, or shadows when the reference specifies them.
+
+### Selector Map
+
+See `.cursor/rules/vibe.mdc` for the full per-sprint selector map. The rule file is loaded on every Cursor prompt; this blueprint section is the narrative reference.
+
+### Visual Parity Check
+
+After every UI sprint, perform a side-by-side visual diff at 1280×720 before marking the sprint complete. Divergences beyond minor spacing tolerance → stop, re-port the CSS, re-run the diff. No exceptions.
+
+### What the Reference Covers vs. What it Doesn't
+
+**Covered (port verbatim):** home stats, difficulty grid, dossier gradient card, investigation topbar, folder tabs + manila texture, folder body panel, post cards, pin classification sidebar, voucher tray, verdict option cards, score breakdown, consequence email modal, leaderboard.
+
+**Not covered (invent using tokens + vibe):** stamp-slam animation keyframes, score line-by-line reveal timing, tutorial tooltip styling, toast container styling. Flag these with `/* NOT IN design-reference.html */` comments.
+
+---
+
 ## ✂️ Explicitly Out of Scope
 
 - Case replay
