@@ -1,0 +1,32 @@
+:root {
+  /* Colors */
+  --cream: #F5F0E6;
+  --gold: #F0C050;
+  --crimson: #A52424;
+  --ink: #1C1A17;
+  --paper: #FAF6EE;
+
+  /* Platform colors */
+  --fb-blue: #1877F2;
+  --ig-pink: #E1306C;
+  --li-blue: #0A66C2;
+  --x-black: #000000;
+
+  /* Verdict colors */
+  --approve-green: #1E8449;
+  --reject-red: #A52424;
+
+  /* Typography */
+  --font-display: "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Motion */
+  --stagger: 120ms;
+  --stamp-duration: 800ms;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
